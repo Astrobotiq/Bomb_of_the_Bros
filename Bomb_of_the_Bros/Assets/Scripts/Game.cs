@@ -8,7 +8,7 @@ public class Game : MonoBehaviour
 
     private Board board;
     private Cell[,] state;
-    private bool gameOver;
+    public bool gameOver;
 
     private void OnValidate()
     {
@@ -47,22 +47,7 @@ public class Game : MonoBehaviour
             {
                 Cell cell = new Cell();
                 cell.position = new Vector3Int(x, y, 0);
-                if (x == 0 && y == 0)
-                {
-                    cell.isCastle = true;
-                    cell.isCastleOne = true;
-                    cell.type = Cell.Type.castle;
-                }
-                else if (x == width - 1 && y == height - 1)
-                {
-                    cell.isCastle = true;
-                    cell.isCastleOne = false;
-                    cell.type = Cell.Type.castle;
-                }
-                else
-                {
-                    cell.type = Cell.Type.empty;
-                }
+                cell.type = Cell.Type.empty;
                 state[x, y] = cell;
             }
         }
@@ -148,22 +133,9 @@ public class Game : MonoBehaviour
         return count;
     }
 
-    private void Update()
-    {
-        if (!gameOver)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                Flag();
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                Reveal();
-            }
-        }
-    }
+    
 
-    private void Flag()
+    public void Flag()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = board.tilemap.WorldToCell(worldPosition);
@@ -180,7 +152,7 @@ public class Game : MonoBehaviour
         board.Draw(state);
     }
 
-    private void Reveal()
+    public void Reveal()
     {
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int cellPosition = board.tilemap.WorldToCell(worldPosition);
